@@ -1,4 +1,5 @@
-// fontSize lineHeight
+// Font Size Line Height
+// Use `@include font-size(20px);`
 @mixin font-size($fontSize: 12px, $lineHeight: $fontSize + 8) {
   font-size: $fontSize;
   line-height: $lineHeight;
