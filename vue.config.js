@@ -30,6 +30,8 @@ module.exports = {
   // 生产环境不生成sourceMap文件
   productionSourceMap: true,
   chainWebpack: config => {
+    // 移除 preload 插件
+    config.plugins.delete('preload')
     // 移除 prefetch 插件
     config.plugins.delete('prefetch')
   }
