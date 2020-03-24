@@ -4,11 +4,24 @@ import Home from '@/views/Home.vue'
 
 Vue.use(VueRouter)
 
+/* Layout */
+import Layout from '@/layout'
+
 const routes = [
   {
+    path: '/login',
+    // component: () => import('@/views/login/index'),
+    hidden: true
+  },
+
+  {
+    path: '/404',
+    // component: () => import('@/views/404'),
+    hidden: true
+  },
+  {
     path: '/',
-    name: 'Home',
-    component: Home
+    component: Layout
   },
   {
     path: '/about',
