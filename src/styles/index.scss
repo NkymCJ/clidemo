@@ -2,18 +2,32 @@
 .block { display: block; }
 .inblock { display: inline-block; }
 
-// Font Weight Bold
+// Font weight bold
 .bold { font-weight: bold; }
 
-// Text Ellipsis
+// Text ellipsis
  .text-ellipsis {
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
 }
 
-// Align Way
+// Align way
 $aligns: left, center, right;
 @each $align in $aligns {
   .text-#{$align} { text-align: $align; }
+}
+
+// ScrollBar
+&::-webkit-scrollbar-track-piece {
+  background: #d3dce6;
+}
+
+&::-webkit-scrollbar {
+  width: 6px;
+}
+
+&::-webkit-scrollbar-thumb {
+  background: #99a9bf;
+  border-radius: 20px;
 }
