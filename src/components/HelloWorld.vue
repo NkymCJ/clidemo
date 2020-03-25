@@ -10,7 +10,7 @@ export default {
   props: {
     msg: String
   },
-  created () {
+  created() {
     console.log('HelloWorld')
   }
 }

@@ -2,7 +2,7 @@
 // const resolve = dir => path.resolve(__dirname, dir)
 const isProd = process.env.NODE_ENV === 'production'
 console.log(process.env.NODE_ENV)
-console.log(process.env.PROJECT_ENV)
+console.log(process.env.VUE_APP_BASE_API)
 module.exports = {
   css: {
     loaderOptions: {
