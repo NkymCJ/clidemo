@@ -1,4 +1,4 @@
-// const path = require('path')
+const path = require('path')
 // const resolve = dir => path.resolve(__dirname, dir)
 const isProd = process.env.NODE_ENV === 'production'
 console.log(process.env.NODE_ENV)
