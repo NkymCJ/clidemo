@@ -1,4 +1,3 @@
-
 html {
   height: 100%;
   box-sizing: border-box;
@@ -16,6 +15,20 @@ body {
   height: 100%;
 }
 
+// A tag
+a:focus,
+a:active {
+  outline: none;
+}
+
+a,
+a:focus,
+a:hover {
+  cursor: pointer;
+  color: inherit;
+  text-decoration: none;
+}
+
 // Box model
 *,
 *:before,
@@ -31,7 +44,7 @@ body {
 .bold { font-weight: bold; }
 
 // Text ellipsis
- .text-ellipsis {
+.text-ellipsis {
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
@@ -43,7 +56,7 @@ $aligns: left, center, right;
   .text-#{$align} { text-align: $align; }
 }
 
-// ScrollBar
+// ScrollBar global config
 ::-webkit-scrollbar-track-piece {
   background: #d3dce6;
 }

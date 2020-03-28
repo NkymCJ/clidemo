@@ -5,6 +5,8 @@ import VueRouter from 'vue-router'
 /* Layout */
 import Layout from '@/layout'
 
+/* Router modules */
+
 Vue.use(VueRouter)
 
 export const constantRoutes = [

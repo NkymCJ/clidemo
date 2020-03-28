@@ -1,24 +1,21 @@
 <template>
-  <div class="hello">
-    <div>{{ msg }}</div>
+  <div class="hello-world">
+    HelloWorld
   </div>
 </template>
 
 <script>
 export default {
-  name: 'HelloWorld',
-  props: {
-    msg: String
-  },
-  created() {
-    console.log('HelloWorld')
-  }
+  name: 'HelloWorld'
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss">
-.hello {
+<style lang="scss" scoped>
+.hello-world {
   color: $primary;
+
+  &:hover {
+    color: $primary_hover;
+  }
 }
 </style>
