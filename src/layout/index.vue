@@ -1,17 +1,16 @@
 <template>
   <div class="layout">
-    Layout
+    <app-main />
   </div>
 </template>
 
 <script>
+import { AppMain } from './components'
+
 export default {
-  name: 'Layout'
+  name: 'Layout',
+  components: {
+    AppMain
+  }
 }
 </script>
-
-<style lang="scss" scoped>
-  .layout {
-    @include font-size(20px);
-  }
-</style>

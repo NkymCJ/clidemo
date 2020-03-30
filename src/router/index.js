@@ -3,28 +3,37 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 /* Layout */
-import Layout from '@/layout'
+import Layout from '@/layout/index'
 
 /* Router modules */
+// import configRouter from './modules/config'
 
 Vue.use(VueRouter)
 
 export const constantRoutes = [
   {
     path: '/login',
-    component: () => import(/* webpackChunkName: "login" */ '@/views/Login'),
+    component: () => import(/* webpackChunkName: "login" */ '@/views/login/index'),
     hidden: true
   },
 
   {
     path: '/404',
-    component: () => import(/* webpackChunkName: "404" */ '@/views/404'),
+    component: () => import(/* webpackChunkName: "404" */ '@/views/error-page/404'),
     hidden: true
   },
   {
     path: '/',
-    component: Layout
+    component: Layout,
+    redirect: '/home',
+    children: [{
+      path: 'home',
+      name: 'Home',
+      component: () => import(/* webpackChunkName: "home" */ '@/views/home/index'),
+      meta: { title: 'Home' }
+    }]
   },
+  // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]
 
