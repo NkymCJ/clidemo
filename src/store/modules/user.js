@@ -1,4 +1,5 @@
 import { login, logout, getInfo } from '@/api/user'
+import { isEmptyObject } from '@/utils'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
 
@@ -6,7 +7,9 @@ const getDefaultState = () => {
   return {
     token: getToken(),
     name: '',
-    avatar: ''
+    avatar: '',
+    introduction: '',
+    roles: []
   }
 }
 
@@ -24,17 +27,28 @@ const mutations = {
   },
   SET_AVATAR: (state, avatar) => {
     state.avatar = avatar
+  },
+  SET_INTRODUCTION: (state, introduction) => {
+    state.introduction = introduction
+  },
+  SET_ROLES: (state, roles) => {
+    state.roles = roles
   }
 }
 
 const actions = {
-  // User login
   login({ commit }, userInfo) {
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {
       login({ username: username.trim(), password: password }).then(response => {
-        const { data } = response
+        const { success = false, data = {} } = response
+        // Login error or no token
+        if (!success || isEmptyObject(data) || !data.token) {
+          reject(new Error('Login error'))
+        }
+        // Set store token
         commit('SET_TOKEN', data.token)
+        // Set cookie token
         setToken(data.token)
         resolve()
       }).catch(error => {
@@ -43,17 +57,23 @@ const actions = {
     })
   },
 
-  // Get user info
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
+      // Get info by token
       getInfo(state.token).then(response => {
-        const { data } = response
-        if (!data) {
-          reject(new Error('Verification failed, please Login again.'))
+        const { success = false, data = {} } = response
+        if (!success || isEmptyObject(data)) {
+          reject(new Error('Get info error'))
         }
-        const { name, avatar } = data
+        const { name = '', avatar = '', introduction = '', roles = [] } = data
+        // Do not use roles judgment temporarily
+        // if (!roles || roles.length <= 0) {
+        //   throw new Error('Get info:roles error')
+        // }
+        commit('SET_ROLES', roles)
         commit('SET_NAME', name)
         commit('SET_AVATAR', avatar)
+        commit('SET_INTRODUCTION', introduction)
         resolve(data)
       }).catch(error => {
         reject(error)
@@ -61,11 +81,15 @@ const actions = {
     })
   },
 
-  // User logout
   logout({ commit, state }) {
     return new Promise((resolve, reject) => {
-      logout(state.token).then(() => {
-        removeToken() // Must remove token  first
+      logout(state.token).then(response => {
+        const { success = false } = response
+        if (!success) {
+          reject(new Error('Logout error'))
+        }
+        // Remove token before reset
+        removeToken()
         resetRouter()
         commit('RESET_STATE')
         resolve()
@@ -78,7 +102,8 @@ const actions = {
   // Remove token
   resetToken({ commit }) {
     return new Promise(resolve => {
-      removeToken() // Must remove token first
+      // Remove token before reset
+      removeToken()
       commit('RESET_STATE')
       resolve()
     })

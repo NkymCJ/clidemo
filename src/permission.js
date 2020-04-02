@@ -3,7 +3,7 @@ import store from './store'
 import { Message } from 'element-ui'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
-import { getToken } from '@/utils/auth'
+// import { getToken } from '@/utils/auth'
 import getPageTitle from '@/utils/get-page-title'
 
 // NProgress Configuration
@@ -19,7 +19,8 @@ router.beforeEach(async(to, from, next) => {
   // Set page title
   document.title = getPageTitle(to.meta.title)
 
-  const hasToken = getToken()
+  // const hasToken = getToken()
+  const hasToken = true
 
   if (hasToken) {
     if (to.path === '/login') {
@@ -27,17 +28,17 @@ router.beforeEach(async(to, from, next) => {
       next({ path: '/' })
       NProgress.done()
     } else {
-      const hasGetUserInfo = store.getters.name
+      const hasGetUserInfo = store.state.user.name
       if (hasGetUserInfo) {
         next()
       } else {
         try {
           // Get user info
-          await store.dispatch('user/getInfo')
+          // await store.dispatch('user/getInfo')
           next()
         } catch (error) {
           // Remove token and go to login page to re-login
-          await store.dispatch('user/resetToken')
+          // await store.dispatch('user/resetToken')
           Message.error(error || 'Has Error')
           next(`/login?redirect=${to.path}`)
           NProgress.done()

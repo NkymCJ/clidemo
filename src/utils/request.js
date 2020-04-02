@@ -16,7 +16,7 @@ service.interceptors.request.use(
   config => {
     // Do something before request is sent
     // ...
-    if (store.getters.token) {
+    if (store.state.user.token) {
       config.headers['Admin-Token'] = getToken()
     }
     return config
@@ -31,7 +31,7 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   response => response,
   error => {
-    console.log('err' + error)
+    console.log('error: ' + error)
     Message({
       message: error.message,
       type: 'error',

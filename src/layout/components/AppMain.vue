@@ -1,6 +1,8 @@
 <template>
   <div class="app-main">
-    <router-view :key="key" />
+    <keep-alive :include="cachedViews">
+      <router-view :key="key" />
+    </keep-alive>
   </div>
 </template>
 
@@ -8,6 +10,9 @@
 export default {
   name: 'AppMain',
   computed: {
+    cachedViews() {
+      return []
+    },
     key() {
       return this.$route.path
     }

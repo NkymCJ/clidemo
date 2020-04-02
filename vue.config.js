@@ -1,17 +1,14 @@
 const path = require('path')
-const resolve = dir => path.resolve(__dirname, dir)
+const resolve = dir => path.join(__dirname, dir)
 const defaultSettings = require('./src/settings.js')
 // Page title
 const name = defaultSettings.title || 'Admin'
-console.log(name)
 // Dev port
 const port = 8080
-console.log('NODE_ENV: ' + process.env.NODE_ENV)
+// NODE_ENV
 const isProd = process.env.NODE_ENV === 'production'
 const isDev = process.env.NODE_ENV === 'development'
-console.log('isProd: ' + isProd)
-console.log('isDev: ' + isDev)
-console.log('BASE_API: ' + process.env.BASE_API)
+// Config
 module.exports = {
   css: {
     loaderOptions: {
@@ -23,9 +20,9 @@ module.exports = {
       }
     }
   },
-  // assetsDir: '',
   publicPath: '/',
   outputDir: 'dist',
+  assetsDir: 'static',
   lintOnSave: isDev,
   productionSourceMap: false,
   devServer: {
@@ -38,6 +35,13 @@ module.exports = {
     }
   },
   configureWebpack: {
+    // For index.html title
+    name: name,
+    resolve: {
+      alias: {
+        '@': resolve('src')
+      }
+    },
     output: {
       // Entry file Name
       filename: isProd ? 'js/[name].[contenthash:8].js' : '[name].js',

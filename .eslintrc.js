@@ -1,7 +1,6 @@
 // off or 0: 关闭(禁用)规则
 // warn or 1: 将规则视为一个警告
 // error or 2: 将规则视为一个错误
-
 module.exports = {
   root: true,
   env: {
