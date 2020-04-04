@@ -1,7 +1,7 @@
 import { login, logout, getInfo } from '@/api/user'
 import { isEmptyObject } from '@/utils'
 import { getToken, setToken, removeToken } from '@/utils/auth'
-import { resetRouter } from '@/router'
+import router, { resetRouter } from '@/router'
 
 const getDefaultState = () => {
   return {
@@ -37,16 +37,21 @@ const mutations = {
 }
 
 const actions = {
+  resetState: ({ commit }) => {
+    commit('RESET_STATE')
+  },
+  // Login to get token
   login({ commit }, userInfo) {
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {
-      login({ username: username.trim(), password: password }).then(response => {
-        const { success = false, data = {} } = response
+      login({ username, password }).then(response => {
+        const { success = false, data = {} } = response || {}
         // Login error or no token
         if (!success || isEmptyObject(data) || !data.token) {
           reject(new Error('Login error'))
         }
         // Set store token
+        // Example: ADMIN-token or VISITOR-token
         commit('SET_TOKEN', data.token)
         // Set cookie token
         setToken(data.token)
@@ -56,20 +61,19 @@ const actions = {
       })
     })
   },
-
+  // Get info by token
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
-      // Get info by token
       getInfo(state.token).then(response => {
-        const { success = false, data = {} } = response
+        const { success = false, data = {} } = response || {}
         if (!success || isEmptyObject(data)) {
           reject(new Error('Get info error'))
         }
         const { name = '', avatar = '', introduction = '', roles = [] } = data
         // Do not use roles judgment temporarily
-        // if (!roles || roles.length <= 0) {
-        //   throw new Error('Get info:roles error')
-        // }
+        if (roles.length <= 0) {
+          throw new Error('Get info:roles error')
+        }
         commit('SET_ROLES', roles)
         commit('SET_NAME', name)
         commit('SET_AVATAR', avatar)
@@ -84,14 +88,18 @@ const actions = {
   logout({ commit, state }) {
     return new Promise((resolve, reject) => {
       logout(state.token).then(response => {
-        const { success = false } = response
+        const { success = false } = response || {}
         if (!success) {
           reject(new Error('Logout error'))
         }
-        // Remove token before reset
+        // Remove cookie token before reset
         removeToken()
-        resetRouter()
+        // Reset state token and oters
         commit('RESET_STATE')
+        // Reset router
+        resetRouter()
+        // Reset cache tag
+        // resetCache()
         resolve()
       }).catch(error => {
         reject(error)
@@ -104,7 +112,34 @@ const actions = {
     return new Promise(resolve => {
       // Remove token before reset
       removeToken()
+      // Reset state token and oters
       commit('RESET_STATE')
+      // Reser router
+      resetRouter()
+      resolve()
+    })
+  },
+
+  // dynamically modify permissions
+  changeRoles({ commit, dispatch }, role) {
+    return new Promise(async resolve => {
+      const token = role + '-token'
+      // Set store token
+      // Example: ADMIN-token or VISITOR-token
+      commit('SET_TOKEN', token)
+      // Set cookie token
+      setToken(token)
+      const { roles = 'VISITOR' } = await dispatch('getInfo')
+      console.log(roles)
+      resetRouter()
+      console.log(router)
+      // Generate accessible routes map based on roles
+      // const accessRoutes = await dispatch('permission/generateRoutes', roles, { root: true })
+      // Dynamically add accessible routes
+      // router.addRoutes(accessRoutes)
+
+      // Reset visited views and cached views
+      // dispatch('tagsView/delAllViews', null, { root: true })
       resolve()
     })
   }

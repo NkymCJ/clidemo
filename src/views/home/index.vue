@@ -1,12 +1,17 @@
 <template>
   <div class="home">
-    Home
+    {{ content }}
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Home'
+  name: 'Home',
+  data() {
+    return {
+      content: 'Home'
+    }
+  }
 }
 </script>
 

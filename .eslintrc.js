@@ -14,6 +14,7 @@ module.exports = {
     parser: 'babel-eslint'
   },
   rules: {
+    "no-async-promise-executor": 0,
     // Disallow use of Object.prototypes builtins directly
     "no-prototype-builtins": 0,
     // Require or disallow a space before function parenthesis
