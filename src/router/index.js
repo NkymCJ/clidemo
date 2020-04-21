@@ -6,9 +6,23 @@ import VueRouter from 'vue-router'
 import Layout from '@/layout/index'
 
 /* Router modules */
+import roleRouter from './modules/role'
 import configRouter from './modules/config'
 
 Vue.use(VueRouter)
+
+/**
+ * hidden: true                   if set true, item will not show in the sidebar(default is false)
+ * alwaysShow: true               if set true, will always show the root menu
+ *                                if not set alwaysShow, when item has more than one children route,
+ *                                it will becomes nested mode, otherwise not show the root menu
+ * name:'router-name'             the name is used by <keep-alive> (must set!!!)
+ * meta : {
+    roles: ['admin','editor']    control the page roles (you can set multiple roles)
+    title: 'title'               the name show in sidebar and breadcrumb (recommend set)
+    cache: fasle                if set true, the page will be cached(default is false)
+  }
+ */
 
 export const constantRoutes = [
   {
@@ -47,6 +61,10 @@ export const constantRoutes = [
   configRouter,
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
+]
+
+export const asyncRoutes = [
+  roleRouter
 ]
 
 const createRouter = () => new VueRouter({

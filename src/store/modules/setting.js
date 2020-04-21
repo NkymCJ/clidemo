@@ -1,16 +1,16 @@
 import defaultSettings from '@/settings'
 
-const { title, fixedHeader, sidebarLogo } = defaultSettings
+const { title } = defaultSettings
 
 const getDefaultState = () => {
   return {
-    title,
-    fixedHeader,
-    sidebarLogo
+    title
   }
 }
 
 const state = getDefaultState()
+
+const getters = {}
 
 const mutations = {
   CHANGE_SETTING: (state, { key, value }) => {
@@ -29,6 +29,7 @@ const actions = {
 export default {
   namespaced: true,
   state,
+  getters,
   mutations,
   actions
 }

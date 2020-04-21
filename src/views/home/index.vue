@@ -17,6 +17,6 @@ export default {
 
 <style lang="scss" scoped>
   .home {
-    @include font-size(20px);
+    @include font-size(20px)
   }
 </style>

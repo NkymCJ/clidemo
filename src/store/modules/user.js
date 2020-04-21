@@ -15,10 +15,9 @@ const getDefaultState = () => {
 
 const state = getDefaultState()
 
+const getters = {}
+
 const mutations = {
-  RESET_STATE: (state) => {
-    Object.assign(state, getDefaultState())
-  },
   SET_TOKEN: (state, token) => {
     state.token = token
   },
@@ -37,16 +36,13 @@ const mutations = {
 }
 
 const actions = {
-  resetState: ({ commit }) => {
-    commit('RESET_STATE')
-  },
   // Login to get token
   login({ commit }, userInfo) {
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {
       login({ username, password }).then(response => {
-        const { success = false, data = {} } = response || {}
-        // Login error or no token
+        const { success = false, data = {} } = response
+        // get false/is empty object/no token
         if (!success || isEmptyObject(data) || !data.token) {
           reject(new Error('Login error'))
         }
@@ -65,11 +61,11 @@ const actions = {
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
       getInfo(state.token).then(response => {
-        const { success = false, data = {} } = response || {}
+        const { success = false, data = {} } = response
         if (!success || isEmptyObject(data)) {
           reject(new Error('Get info error'))
         }
-        const { name = '', avatar = '', introduction = '', roles = [] } = data
+        const { name = '', avatar = '', introduction = '', roles = ['VISITOR'] } = data
         // Do not use roles judgment temporarily
         if (roles.length <= 0) {
           throw new Error('Get info:roles error')
@@ -92,14 +88,13 @@ const actions = {
         if (!success) {
           reject(new Error('Logout error'))
         }
+        commit('SET_TOKEN', '')
+        commit('SET_ROLES', [])
         // Remove cookie token before reset
         removeToken()
-        // Reset state token and oters
-        commit('RESET_STATE')
         // Reset router
         resetRouter()
-        // Reset cache tag
-        // resetCache()
+
         resolve()
       }).catch(error => {
         reject(error)
@@ -110,12 +105,10 @@ const actions = {
   // Remove token
   resetToken({ commit }) {
     return new Promise(resolve => {
+      commit('SET_TOKEN', '')
+      commit('SET_ROLES', [])
       // Remove token before reset
       removeToken()
-      // Reset state token and oters
-      commit('RESET_STATE')
-      // Reser router
-      resetRouter()
       resolve()
     })
   },
@@ -129,17 +122,14 @@ const actions = {
       commit('SET_TOKEN', token)
       // Set cookie token
       setToken(token)
-      const { roles = 'VISITOR' } = await dispatch('getInfo')
+      const { roles = ['VISITOR'] } = await dispatch('getInfo')
       console.log(roles)
       resetRouter()
       console.log(router)
       // Generate accessible routes map based on roles
-      // const accessRoutes = await dispatch('permission/generateRoutes', roles, { root: true })
+      const accessRoutes = await dispatch('permission/generateRoutes', roles, { root: true })
       // Dynamically add accessible routes
-      // router.addRoutes(accessRoutes)
-
-      // Reset visited views and cached views
-      // dispatch('tagsView/delAllViews', null, { root: true })
+      router.addRoutes(accessRoutes)
       resolve()
     })
   }
@@ -148,6 +138,7 @@ const actions = {
 export default {
   namespaced: true,
   state,
+  getters,
   mutations,
   actions
 }

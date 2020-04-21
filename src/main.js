@@ -10,10 +10,17 @@ import '@/plugins/element-ui/index'
 import '@/styles/index.scss'
 
 import App from './App.vue'
-import router from './router'
 import store from './store'
+import router from './router'
 
 import './permission'
+
+import * as filters from './filters'
+
+// 注册全局的过滤
+Object.keys(filters).forEach(key => {
+  Vue.filter(key, filters[key])
+})
 
 Vue.config.productionTip = false
 

@@ -1,18 +1,36 @@
 const path = require('path')
 const resolve = dir => path.join(__dirname, dir)
+console.log(resolve('src'))
 const defaultSettings = require('./src/settings.js')
 // Page title
-const name = defaultSettings.title || 'Admin'
-// Dev port
+const name = defaultSettings.title || '管理系统'
+// Dev port 开发端口
 const port = 8080
-// NODE_ENV
+// NODE_ENV 环境判断
 const isProd = process.env.NODE_ENV === 'production'
 const isDev = process.env.NODE_ENV === 'development'
 // Config
 module.exports = {
+  publicPath: '/',
+  outputDir: 'dist',
+  assetsDir: 'static',
+  lintOnSave: isDev,
+  // 生产环境是否有映射
+  productionSourceMap: false,
+  // 开发服务器配置
+  devServer: {
+    port: port,
+    open: false,
+    overlay: {
+      // 出现以下情况，是否展示在浏览器中
+      warnings: false,
+      errors: true
+    }
+  },
   css: {
     loaderOptions: {
       scss: {
+        // 为所有scss文件传入共享的全局变量、MIXIN
         prependData: `
           @import "~@/styles/var.scss";
           @import "~@/styles/mixin.scss";
@@ -20,22 +38,8 @@ module.exports = {
       }
     }
   },
-  publicPath: '/',
-  outputDir: 'dist',
-  assetsDir: 'static',
-  lintOnSave: isDev,
-  productionSourceMap: false,
-  devServer: {
-    port: port,
-    open: false,
-    overlay: {
-      // Show info on browser when warn or error
-      warnings: false,
-      errors: true
-    }
-  },
   configureWebpack: {
-    // For index.html title
+    // 首页的title
     name: name,
     resolve: {
       alias: {
@@ -43,9 +47,9 @@ module.exports = {
       }
     },
     output: {
-      // Entry file Name
+      // 入口文件的名字
       filename: isProd ? 'js/[name].[contenthash:8].js' : '[name].js',
-      // Others Name
+      // 其他文件的名字
       chunkFilename: isProd ? 'js/[name].[contenthash:8].js' : '[name].js'
     }
   },
@@ -61,7 +65,8 @@ module.exports = {
       .use('vue-loader')
       .loader('vue-loader')
       .tap(options => {
-        options.compilerOptions.preserveWhitespace = true
+        // 不保留元素之间的空格
+        options.compilerOptions.preserveWhitespace = false
         // ...Others
         return options
       })

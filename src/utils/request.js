@@ -17,7 +17,7 @@ service.interceptors.request.use(
     // Do something before request is sent
     // ...
     if (store.state.user.token) {
-      config.headers['Admin-Token'] = getToken()
+      config.headers['PROJECT-Token'] = getToken()
     }
     return config
   },

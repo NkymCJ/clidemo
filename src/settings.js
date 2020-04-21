@@ -2,16 +2,5 @@ module.exports = {
   /**
    * @description Html title
    */
-  title: 'Admin',
-  /**
-   * @type {boolean} true | false
-   * @description Whether fix the header
-   */
-  fixedHeader: false,
-
-  /**
-   * @type {boolean} true | false
-   * @description Whether show the logo in sidebar
-   */
-  sidebarLogo: false
+  title: '管理系统'
 }

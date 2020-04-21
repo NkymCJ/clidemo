@@ -1,17 +1,17 @@
 <template>
-  <div class="config">
-    Config
+  <div class="role">
+    Role
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Config'
+  name: 'Role'
 }
 </script>
 
 <style lang="scss" scoped>
-  .config {
+  .role {
     @include font-size(20px)
   }
 </style>
