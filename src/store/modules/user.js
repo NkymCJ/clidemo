@@ -1,6 +1,6 @@
 import { login, logout, getInfo } from '@/api/user'
 import { isEmptyObject } from '@/utils'
-import { getToken, setToken, removeToken } from '@/utils/auth'
+import { getToken, setToken, removeToken } from '@/utils/token'
 import router, { resetRouter } from '@/router'
 
 const getDefaultState = () => {

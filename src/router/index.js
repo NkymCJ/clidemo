@@ -6,8 +6,8 @@ import VueRouter from 'vue-router'
 import Layout from '@/layout/index'
 
 /* Router modules */
-import roleRouter from './modules/role'
-import configRouter from './modules/config'
+// import roleRouter from './modules/role'
+// import configRouter from './modules/config'
 
 Vue.use(VueRouter)
 
@@ -25,17 +25,6 @@ Vue.use(VueRouter)
  */
 
 export const constantRoutes = [
-  {
-    path: '/redirect',
-    component: Layout,
-    hidden: true,
-    children: [
-      {
-        path: '/redirect/:path(.*)',
-        component: () => import(/* webpackChunkName: "redirect" */ '@/views/redirect/index')
-      }
-    ]
-  },
   {
     path: '/login',
     component: () => import(/* webpackChunkName: "login" */ '@/views/login/index'),
@@ -58,13 +47,13 @@ export const constantRoutes = [
       meta: { title: 'Home', cache: true }
     }]
   },
-  configRouter,
+  // configRouter,
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]
 
 export const asyncRoutes = [
-  roleRouter
+  // roleRouter
 ]
 
 const createRouter = () => new VueRouter({

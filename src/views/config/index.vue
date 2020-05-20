@@ -11,7 +11,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .config {
-    @include font-size(20px)
-  }
+  .config {}
 </style>

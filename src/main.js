@@ -5,6 +5,7 @@ import 'normalize.css/normalize.css'
 
 // Import element
 import '@/plugins/element-ui/index'
+import 'element-ui/lib/theme-chalk/index.css'
 
 // Global css
 import '@/styles/index.scss'

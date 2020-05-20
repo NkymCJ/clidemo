@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { Message } from 'element-ui'
 import store from '@/store'
-import { getToken } from '@/utils/auth'
+import { getToken } from '@/utils/token'
 
 // Create an axios instance
 const service = axios.create({
@@ -17,7 +17,7 @@ service.interceptors.request.use(
     // Do something before request is sent
     // ...
     if (store.state.user.token) {
-      config.headers['PROJECT-Token'] = getToken()
+      config.headers['SYSTEM-Token'] = getToken()
     }
     return config
   },

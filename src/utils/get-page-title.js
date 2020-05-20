@@ -1,6 +1,6 @@
 import defaultSettings from '@/settings'
 
-const title = defaultSettings.title || 'Admin'
+const title = defaultSettings.title || '管理系统'
 
 export default function getPageTitle(pageTitle = '') {
   if (pageTitle) {

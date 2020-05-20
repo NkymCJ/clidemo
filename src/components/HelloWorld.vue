@@ -1,12 +1,17 @@
 <template>
   <div class="hello-world">
-    HelloWorld
+    {{ name }}
   </div>
 </template>
 
 <script>
 export default {
-  name: 'HelloWorld'
+  name: 'HelloWorld',
+  data() {
+    return {
+      name: '哈喽，你好'
+    }
+  }
 }
 </script>
 

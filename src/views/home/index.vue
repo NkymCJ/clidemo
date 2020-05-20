@@ -16,7 +16,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .home {
-    @include font-size(20px)
-  }
+  .home {}
 </style>

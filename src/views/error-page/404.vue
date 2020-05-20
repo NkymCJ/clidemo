@@ -6,7 +6,7 @@
   .error-404 {
     height: 100%;
     width: 100%;
-    background: url('~@/assets/404.png') center center no-repeat;
+    background: url('~@/assets/images/404.png') center center no-repeat;
     background-size: 50%;
   }
 </style>
